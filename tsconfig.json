@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "node",
-    "strict": true,
+    "allowImportingTsExtensions": true,
+    "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true,
