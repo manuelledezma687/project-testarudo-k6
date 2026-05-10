@@ -2,7 +2,7 @@ import http from 'k6/http';
 import { check } from 'k6';
 import { ENDPOINTS } from '../config/endpoints.ts'
 import { ENV } from '../config/environments.ts'
-import { LoginPayload,LoginResponse } from '../types.ts'
+import { LoginPayload,LoginResponse } from '../types'
 import  { jsonHeaders} from './utils.ts'
 
 
@@ -22,6 +22,6 @@ export function login(
         return null;
     }
 
-    const body = res.json() as LoginResponse;
+    const body = res.json() as unknown as LoginResponse;
     return body?.access_token || null;
 };
