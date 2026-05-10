@@ -1,0 +1,20 @@
+{
+  "name": "project-k6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "k6": "^0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
