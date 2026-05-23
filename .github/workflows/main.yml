@@ -42,7 +42,7 @@ jobs:
           
       - name: Ejecutar Smoke tests
         run: |
-          k6 run dist/smoke-test.js -e BASE_URL=$BASE_URL -e TEST_USER_EMAIL=$TEST_USER_EMAIL -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD --summary-report=reports/smoke-report.json
+          k6 run dist/smoke-test.js -e BASE_URL=$BASE_URL -e TEST_USER_EMAIL=$TEST_USER_EMAIL -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD --summary-export=reports/smoke-test.json
         continue-on-error: true
         id: k6_run
 
@@ -51,7 +51,5 @@ jobs:
         if: ${{!cancelled()}}
         with:
           name: k6-smoke-report-${{ github.run_id }}
-          path: |
-            reports/smoke-report.html
-            reports/smoke-report.json
+          path: reports/
           retention-days: 30
