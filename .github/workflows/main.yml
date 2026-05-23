@@ -1,0 +1,66 @@
+name: k6 Performance tests
+
+on:
+  push: 
+    branches: [feature/first_class]
+  pull_request:
+    branches: [feature/first_class]
+
+jobs:
+  smoke:
+    name: "k6 Smoke Test"
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+      TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+
+      - name: Instalar K6
+        run: |
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" \
+            | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update && sudo apt-get install k6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar Typescript con esbuild
+        run: |
+          mkdir -p dist
+          npx esbuild tests/smoke/smoke-test.ts \
+            -- bundle \
+            -- platform=node \
+            -- target=es2015 \
+            -- outfile=dist/smoke-test.js \
+            -- external:k6/*
+          
+      - name: Ejecutar Smoke tests
+        run: |
+          k6 run dist/smoke-test.js \
+            -e BASE_URL=$BASE_URL \
+            -e TEST_USER_EMAIL=$TEST_USER_EMAIL \
+            -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD
+
+      - name: Subir Resultados
+        uses: actions/upload-artifact@v4
+        if: ${{!cancelled()}}
+        with:
+          name: k6-smoke-results
+          path: dist/
+          retention-days: 7
