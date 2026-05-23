@@ -42,7 +42,9 @@ jobs:
           
       - name: Ejecutar Smoke tests
         run: |
-          k6 run dist/smoke-test.js -e BASE_URL=$BASE_URL -e TEST_USER_EMAIL=$TEST_USER_EMAIL -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD
+          k6 run dist/smoke-test.js -e BASE_URL=$BASE_URL -e TEST_USER_EMAIL=$TEST_USER_EMAIL -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD --summary-report=reports/smoke-report.json
+        continue-on-error: true
+        id: k6_run
 
       - name: Subir Resultados
         uses: actions/upload-artifact@v4

@@ -5,8 +5,6 @@ import { ENV } from '../../config/environments.ts';
 import { ENDPOINTS } from '../../config/endpoints.ts';
 import { login } from '../../helpers/auth.ts';
 import { jsonHeaders } from '../../helpers/utils.ts';
-import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
-import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
 export const options: Options = {
     vus:1 ,
