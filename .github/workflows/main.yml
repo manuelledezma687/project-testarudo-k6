@@ -40,19 +40,11 @@ jobs:
       - name: Compilar Typescript con esbuild
         run: |
           mkdir -p dist
-          npx esbuild tests/smoke/smoke-test.ts \
-            -- bundle \
-            -- platform=node \
-            -- target=es2015 \
-            -- outfile=dist/smoke-test.js \
-            -- external:k6/*
+          npx esbuild tests/smoke/smoke-test.ts --bundle --platform=node --target=es2015 --outfile=dist/smoke-test.js --external:k6/*
           
       - name: Ejecutar Smoke tests
         run: |
-          k6 run dist/smoke-test.js \
-            -e BASE_URL=$BASE_URL \
-            -e TEST_USER_EMAIL=$TEST_USER_EMAIL \
-            -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD
+          k6 run dist/smoke-test.js -e BASE_URL=$BASE_URL -e TEST_USER_EMAIL=$TEST_USER_EMAIL -e TEST_USER_PASSWORD=$TEST_USER_PASSWORD
 
       - name: Subir Resultados
         uses: actions/upload-artifact@v4
