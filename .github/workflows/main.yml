@@ -40,7 +40,7 @@ jobs:
       - name: Compilar Typescript con esbuild
         run: |
           mkdir -p dist
-          npx esbuild tests/smoke/smoke-test.ts --bundle --platform=node --target=es2015 --outfile=dist/smoke-test.js --external:k6/*
+          npx esbuild@0.28.0 tests/smoke/smoke-test.ts --bundle --platform=node --target=es2015 --outfile=dist/smoke-test.js --external:k6/http --external:k6/metrics --external:k6/execution --external:k6/check --external:k6/*
           
       - name: Ejecutar Smoke tests
         run: |
