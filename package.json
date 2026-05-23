@@ -7,6 +7,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "esbuild": "^0.28.0",
     "k6": "^0.0.0"
   },
   "devDependencies": {
